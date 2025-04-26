@@ -3,7 +3,7 @@ import CommentSection from "./CommentSection";
 
 const PostDetailPage = () => {
   const postId = 1; // From router normally
-  const currentUserId = 2; // Assume logged-in user ID
+  const currentUserId = 1; // Assume logged-in user ID
 
   return (
     <div className="post-detail">
