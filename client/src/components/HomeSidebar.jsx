@@ -39,6 +39,21 @@ export default function HomeSidebar() {
   };
   return (
     <Sidebar className="w-full md:w-56">
+      {/* Profile Section */}
+      <div className="flex flex-col items-center p-6 border-b border-gray-200">
+        <img
+          src={
+            currentUser?.profilePicture ||
+            "https://cdn.pixabay.com/photo/2016/09/24/03/20/man-1690965_1280.jpg"
+          }
+          alt="Profile"
+          className="w-16 h-16 rounded-full object-cover"
+        />
+        <p className="mt-3 font-semibold text-gray-800 text-center">
+          {currentUser?.name || "User Name"}
+        </p>
+      </div>
+
       <Sidebar.Items>
         <Sidebar.ItemGroup className="flex flex-col gap-1">
           <Link to="/?tab=homepost">
@@ -48,6 +63,16 @@ export default function HomeSidebar() {
               as="div"
             >
               Home
+            </Sidebar.Item>
+          </Link>
+
+          <Link to="/?tab=learningplan">
+            <Sidebar.Item
+              active={tab === "learningplan"}
+              icon={HiChartPie}
+              as="div"
+            >
+              Learnin Plan
             </Sidebar.Item>
           </Link>
 
