@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { Card, Progress, Button, Spinner } from "flowbite-react";
-import axios from "../utils/axios"; // Adjust if needed
+import axios from "../../utils/axios"; // Adjust if needed
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { motion } from "framer-motion";
 
 export default function LearningPlanList() {
   const navigate = useNavigate();
   const [plans, setPlans] = useState([]);
+  const [animatedProgressMap, setAnimatedProgressMap] = useState({});
+
   const [loading, setLoading] = useState(true);
 
   const { currentUser } = useSelector((state) => state.user);
@@ -16,6 +19,21 @@ export default function LearningPlanList() {
       const userId = currentUser.id;
       const res = await axios.get(`/learning-plans/user/${userId}`);
       setPlans(res.data);
+
+      const newProgressMap = {};
+      res.data.forEach((plan) => {
+        let progress = Math.round(plan.progress || 0);
+        let current = 0;
+        const interval = setInterval(() => {
+          current += 2;
+          if (current >= progress) {
+            current = progress;
+            clearInterval(interval);
+          }
+          newProgressMap[plan.id] = current;
+          setAnimatedProgressMap((prev) => ({ ...prev, ...newProgressMap }));
+        }, 15);
+      });
     } catch (err) {
       console.error("Failed to fetch plans", err);
     } finally {
@@ -40,7 +58,7 @@ export default function LearningPlanList() {
       <div className="flex flex-col md:flex-row justify-between items-center w-full mb-6">
         <h1 className="text-3xl font-bold mb-6">📚 My Learning Plans</h1>
         <Button
-          onClick={() => navigate("/?tab=createLearningplan")}
+          onClick={() => navigate("/home/create-learning-plan")}
           gradientDuoTone="purpleToBlue"
           className="mb-6"
         >
@@ -54,8 +72,14 @@ export default function LearningPlanList() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 w-full">
-          {plans.map((plan) => (
-            <div key={plan.id} className="w-full h-full">
+          {plans.map((plan, index) => (
+             <motion.div
+             key={plan.id}
+             className="w-full h-full"
+             initial={{ opacity: 0, y: 20 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ delay: index * 0.1, duration: 0.6, ease: "easeOut" }}
+           >
               {/* WRAP THE CARD inside a div w-full h-full */}
               <Card className="flex flex-col justify-between w-full h-full hover:shadow-xl transition duration-300">
                 <div>
@@ -65,14 +89,16 @@ export default function LearningPlanList() {
                   <p className="font-normal text-gray-700 dark:text-gray-400 mb-2">
                     {plan.description}
                   </p>
-                  <p className="text-sm text-gray-500 mb-4">📅 Due: {plan.dueDate}</p>
+                  <p className="text-sm text-gray-500 mb-4">
+                    📅 Due: {plan.dueDate}
+                  </p>
                   <div className="mb-4">
                     <Progress
-                      progress={Math.round(plan.progress)}
+                      progress={animatedProgressMap[plan.id] || 0}
                       color="purple"
                     />
                     <p className="text-sm mt-1">
-                      📈 {Math.round(plan.progress)}% Completed
+                      📈 {animatedProgressMap[plan.id] || 0}% Completed
                     </p>
                   </div>
                 </div>
@@ -81,13 +107,13 @@ export default function LearningPlanList() {
                   gradientDuoTone="purpleToBlue"
                   size="sm"
                   onClick={() =>
-                    navigate(`/?tab=viewLearningplan&planId=${plan.id}`)
+                    navigate(`/home/view-learning-plan/${plan.id}`)
                   }
                 >
                   View Details
                 </Button>
               </Card>
-            </div>
+            </motion.div>
           ))}
         </div>
       )}

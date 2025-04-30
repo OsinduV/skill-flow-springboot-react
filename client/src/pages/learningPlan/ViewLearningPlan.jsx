@@ -1,22 +1,38 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Card, Badge, Button, Spinner } from "flowbite-react";
-import axios from "../utils/axios";
+import axios from "../../utils/axios";
 import { toast } from "react-hot-toast";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { differenceInDays, parseISO, isBefore } from "date-fns";
 
-export default function ViewLearningPlan({ planId }) {
+export default function ViewLearningPlan() {
+  const { planId } = useParams();
   const navigate = useNavigate();
   const [plan, setPlan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [updatingItemId, setUpdatingItemId] = useState(null);
+  const [animatedProgress, setAnimatedProgress] = useState(0);
 
   const fetchPlan = async () => {
     try {
       const res = await axios.get(`/learning-plans/${planId}`);
       setPlan(res.data);
+
+      let progress = res.data.progress || 0;
+      setAnimatedProgress(0); // start from 0
+
+      let current = 0;
+      const interval = setInterval(() => {
+        current += 2; // speed of animation
+        if (current >= progress) {
+          setAnimatedProgress(progress);
+          clearInterval(interval);
+        } else {
+          setAnimatedProgress(current);
+        }
+      }, 15);
     } catch (err) {
       console.error("Failed to fetch learning plan", err);
     } finally {
@@ -51,10 +67,10 @@ export default function ViewLearningPlan({ planId }) {
     if (!dueDateString) {
       return { text: "No Due Date", color: "gray" };
     }
-  
+
     const today = new Date();
     let dueDate;
-    
+
     try {
       dueDate = parseISO(dueDateString);
       if (isNaN(dueDate)) {
@@ -63,9 +79,9 @@ export default function ViewLearningPlan({ planId }) {
     } catch (error) {
       return { text: "Invalid Date", color: "gray" };
     }
-  
+
     const daysLeft = differenceInDays(dueDate, today);
-  
+
     if (isBefore(dueDate, today)) {
       return { text: "Overdue!", color: "failure" };
     } else if (daysLeft === 0) {
@@ -110,11 +126,11 @@ export default function ViewLearningPlan({ planId }) {
         <Card className="flex justify-center items-center w-full">
           <div className="w-32 h-32 relative">
             <CircularProgressbar
-              value={plan.progress}
-              text={`${Math.round(plan.progress)}%`}
+              value={animatedProgress}
+              text={`${Math.round(animatedProgress)}%`}
               styles={buildStyles({
                 textColor: "#4B5563",
-                pathColor: "url(#gradient)", // <-- use the gradient
+                pathColor: "url(#gradient)",
                 trailColor: "#d1d5db",
                 textSize: "16px",
                 strokeLinecap: "round",
@@ -217,13 +233,22 @@ export default function ViewLearningPlan({ planId }) {
           </ul>
         )}
       </Card>
+      {/* <div> */}
+      <Button
+        onClick={() => navigate(`/home/progress/template-select/${planId}`)}
+        color="purple"
+        className="mt-2 w-full"
+      >
+        ✨ Share Your Learning Progress
+      </Button>
       <Button
         onClick={() => navigate("/?tab=learningplan")}
         gradientDuoTone="purpleToBlue"
-        className="mt-2 w-full"
+        className=" w-full"
       >
         ⬅️ Back to Plans
       </Button>
+      {/* </div> */}
     </div>
 
     // </div>

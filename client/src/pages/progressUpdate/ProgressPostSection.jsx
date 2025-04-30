@@ -1,60 +1,43 @@
 import { Carousel, Modal } from "flowbite-react";
 import React, { useState } from "react";
-import CommentSection from "./CommentSection";
 import { FaThumbsUp, FaRegCommentDots } from "react-icons/fa";
+import CommentSection from "../comments/CommentSection";
+import { formatDistanceToNow } from "date-fns";
+import { useSelector } from "react-redux";
 
-export default function Post() {
+export default function ProgressPostSection({ post }) {
+  const { currentUser } = useSelector((state) => state.user);
   const [isFollowing, setIsFollowing] = useState(false);
   const [likes, setLikes] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const postData = {
-    user: {
-      firstName: "Osindu",
-      profilePicture:
-        "https://cdn.pixabay.com/photo/2016/09/24/03/20/man-1690965_1280.jpg",
-    },
-    postedDate: "1w",
-    media: [
-      "https://cdn.pixabay.com/photo/2023/01/10/00/17/italy-7708551_1280.jpg",
-      "https://cdn.pixabay.com/photo/2025/02/20/10/38/robin-9419575_1280.jpg",
-      "https://cdn.pixabay.com/photo/2020/11/24/04/01/pond-5771499_1280.jpg",
-    ],
-    text: "lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat perspiciatis voluptates exercitationem vero ab et.",
-  };
+  const handleFollow = () => setIsFollowing(!isFollowing);
+  const handleLike = () => setLikes((prev) => prev + 1);
+  const handleCommentClick = () => setIsModalOpen(true);
+  const handleModalClose = () => setIsModalOpen(false);
 
-  const handleFollow = () => {
-    setIsFollowing(!isFollowing);
-  };
-
-  const handleLike = () => {
-    setLikes((prevLikes) => prevLikes + 1);
-  };
-
-  const handleCommentClick = () => {
-    setIsModalOpen(true);
-  };
-
-  const handleModalClose = () => {
-    setIsModalOpen(false);
-  };
+  const userAvatar = currentUser?.profilePicture || "/default-avatar.png";
+  const userName = currentUser?.firstName || "User";
+  const createdAt = post.createdAt
+    ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })
+    : "Just now";
 
   return (
     <div className="max-w-lg border border-gray-200 rounded-lg mx-auto shadow-md overflow-hidden my-4 dark:bg-gray-800 dark:border-gray-700">
       {/* User Info */}
       <div className="flex items-center justify-between px-4 pt-4">
-        <div className="flex items-center  ">
+        <div className="flex items-center">
           <img
-            src={postData.user.profilePicture}
+            src={userAvatar}
             alt="User Avatar"
             className="w-10 h-10 rounded-full object-cover"
           />
           <div className="ml-3">
             <p className="font-semibold text-gray-800 dark:text-gray-100">
-              Osindu Vimukthi
+              {userName}
             </p>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              2 hours ago
+              {createdAt}
             </p>
           </div>
         </div>
@@ -70,27 +53,36 @@ export default function Post() {
         </button>
       </div>
 
-      {/* Post Caption */}
+      {/* Post Content */}
       <div className="p-4">
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Placeat
-          perspiciatis voluptates exercitationem vero ab et.
-        </p>
+        <h3 className="text-lg font-semibold text-gray-800 dark:text-gray-100">{post.title}</h3>
+        <p className="text-gray-700 dark:text-gray-300">{post.description}</p>
       </div>
 
-      {/* Image Carousel */}
-      <div className="w-full h-96 ">
-        <Carousel slide={false}>
-          {postData.media.map((image, index) => (
-            <img
-              key={index}
-              src={image}
-              alt={`Post Image ${index + 1}`}
-              className="w-full object-cover"
-            />
-          ))}
-        </Carousel>
-      </div>
+      {/* Media Carousel */}
+      {post.mediaList && post.mediaList.length > 0 && (
+        <div className="w-full h-96">
+          <Carousel slide={false}>
+            {post.mediaList.map((media) =>
+              media.mediaType === "IMAGE" ? (
+                <img
+                  key={media.id}
+                  src={media.fileUrl}
+                  alt="Progress media"
+                  className="w-full object-cover"
+                />
+              ) : (
+                <video
+                  key={media.id}
+                  src={media.fileUrl}
+                  controls
+                  className="w-full object-cover"
+                />
+              )
+            )}
+          </Carousel>
+        </div>
+      )}
 
       {/* Post Actions */}
       <div className="mt-4 p-3 border-y dark:border-gray-700 flex items-center justify-between">
@@ -112,12 +104,11 @@ export default function Post() {
         </div>
       </div>
 
-      {/* <CommentSection /> */}
       {/* Comment Modal */}
       <Modal show={isModalOpen} onClose={handleModalClose}>
         <Modal.Header>Comments</Modal.Header>
         <Modal.Body>
-        <CommentSection />
+          <CommentSection postId={post.id} />
         </Modal.Body>
         <Modal.Footer>
           <button

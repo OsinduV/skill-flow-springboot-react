@@ -1,6 +1,6 @@
 import { Carousel } from "flowbite-react";
 import React from "react";
-import Post from "./Post";
+import Post from "../post/PostSection";
 import CreatePost from "./CreatePost";
 
 export default function HomePost() {

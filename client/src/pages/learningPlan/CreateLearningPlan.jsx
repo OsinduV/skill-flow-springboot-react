@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button, Card, Label, TextInput, Textarea } from "flowbite-react";
-import axios from "../utils/axios"; // Adjust path if different
+import axios from "../../utils/axios"; // Adjust path if different
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -96,7 +96,7 @@ export default function CreateLearningPlan() {
 
   return (
     <div className="flex flex-col items-center justify-center p-6 mx-auto">
-      <Card className="w-full max-w-4xl">
+      <Card className="w-full max-w-3xl">
         <h1 className="text-2xl font-semibold mb-4">
           Create New Learning Plan
         </h1>

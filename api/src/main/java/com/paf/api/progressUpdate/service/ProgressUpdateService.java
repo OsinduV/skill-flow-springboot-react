@@ -103,7 +103,7 @@ public class ProgressUpdateService {
 
 
     public List<ProgressUpdateResponse> getByUser(Integer userId) {
-        return progressRepo.findByUserId(userId).stream()
+        return progressRepo.findAllByUserIdOrderByCreatedAtDesc(userId).stream()
                 .map(this::toDto)
                 .toList();
     }

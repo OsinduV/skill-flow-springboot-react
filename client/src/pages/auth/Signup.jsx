@@ -9,13 +9,13 @@ import {
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { HiMail } from "react-icons/hi";
-import axiosInstance from "../utils/axios";
+import axiosInstance from "../../utils/axios";
 import { useDispatch } from "react-redux";
 import {
   signInStart,
   signInSuccess,
   signInFailure,
-} from "../redux/user/userSlice";
+} from "../../redux/user/userSlice";
 // import OAuth from '../components/OAuth';
 
 export default function SignUp() {
