@@ -135,7 +135,7 @@ export default function Home() {
         transition={{ duration: 0.5 }}
       >
         <h2 className="text-2xl sm:text-3xl font-bold mb-6">Ready to share your skill?</h2>
-        <Link to="/register" className="inline-block">
+        <Link to="/sign-up" className="inline-block">
           <Button gradientDuoTone="purpleToBlue" size="lg">Create an Account</Button>
         </Link>
       </motion.section>

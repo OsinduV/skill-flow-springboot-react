@@ -16,7 +16,6 @@ import {
   signInSuccess,
   signInFailure,
 } from "../../redux/user/userSlice";
-// import OAuth from '../components/OAuth';
 
 export default function SignUp() {
   const [formData, setFormData] = useState({});
@@ -24,12 +23,20 @@ export default function SignUp() {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.id]: e.target.value.trim() });
   };
+
   const handleSubmit = async (e) => {
-    e.preventDefault(); //prevent refreshing page
-    if (!formData.lastName || !formData.firstName || !formData.gender || !formData.email || !formData.password) {
+    e.preventDefault();
+    if (
+      !formData.lastName ||
+      !formData.firstName ||
+      !formData.gender ||
+      !formData.email ||
+      !formData.password
+    ) {
       return setErrorMessage("Please fill out all fields.");
     }
     try {
@@ -38,43 +45,44 @@ export default function SignUp() {
       setErrorMessage(null);
       const res = await axiosInstance.post("/auth/signup", formData);
       const data = res.data;
-      
-            if (data.token) {
-              localStorage.setItem('authToken', data.token);
-              dispatch(signInSuccess(data.user));
-              console.log("data", data);
-              navigate("/");
-            } else {
-              // If no token, dispatch failure with the message
-              dispatch(signInFailure(data.message || "Login failed"));
-              setLoading(false);
-              setErrorMessage(data.message);
-            }
+
+      if (data.token) {
+        localStorage.setItem("authToken", data.token);
+        dispatch(signInSuccess(data.user));
+        navigate("/");
+      } else {
+        dispatch(signInFailure(data.message || "Sign up failed"));
+        setLoading(false);
+        setErrorMessage(data.message);
+      }
     } catch (error) {
-      dispatch(signInFailure(error.response.data.message || "Login failed"));
+      dispatch(signInFailure(error.response.data.message || "Sign up failed"));
       setErrorMessage(error.response.data.message);
       setLoading(false);
     }
   };
-  console.log("formData", formData);
-  return (
-    <div className="min-h-screen mt-20">
-      <div className="flex p-3 max-w-3xl mx-auto flex-col md:flex-row md:items-center gap-5">
-        {/* left */}
-        <div className="flex-1">
-          <Link to="/" className="font-bold dark:text-white text-4xl">
-            <span className="px-2 py-1 bg-gradient-to-r from-purple-600 to-blue-500 rounded-lg text-white">
-              Skill Flow
-            </span>
-          </Link>
-          <p className="text-sm mt-5">
-            This is a demo project. You can sign up with your email and password
-            or with Google.
-          </p>
-        </div>
-        {/* right */}
 
-        <div className="flex-1">
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+      <div className="w-full max-w-6xl mx-auto grid md:grid-cols-2 shadow-md rounded-xl overflow-hidden bg-white dark:bg-gray-800">
+        {/* Left - Image */}
+        <div className="hidden md:block">
+          <img
+            src="/images/login-skill-sharing.png"
+            alt="Skill Sharing Illustration"
+            className="h-full w-full object-cover"
+          />
+        </div>
+
+        {/* Right - Form */}
+        <div className="p-8 sm:p-12 flex flex-col justify-center">
+          <h1 className="text-3xl font-bold text-gray-800 dark:text-white mb-4">
+            Create Your Account
+          </h1>
+          <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+            Start your journey on <strong>Skill Flow</strong> — where you learn and share skills with the world.
+          </p>
+
           <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
             <div className="flex gap-4">
               <div className="w-1/2">
@@ -96,9 +104,10 @@ export default function SignUp() {
                 />
               </div>
             </div>
+
             <div>
-              <Label value="Gender " />
-              <div className="flex gap-10">
+              <Label value="Gender" />
+              <div className="flex gap-10 mt-1">
                 <div className="flex items-center gap-2">
                   <Radio
                     name="gender"
@@ -107,7 +116,7 @@ export default function SignUp() {
                       setFormData({ ...formData, gender: e.target.value })
                     }
                   />
-                  <Label value="Male " />
+                  <Label value="Male" />
                 </div>
                 <div className="flex items-center gap-2">
                   <Radio
@@ -117,12 +126,13 @@ export default function SignUp() {
                       setFormData({ ...formData, gender: e.target.value })
                     }
                   />
-                  <Label value="Female " />
+                  <Label value="Female" />
                 </div>
               </div>
             </div>
+
             <div>
-              <Label value="Your email" />
+              <Label value="Your Email" />
               <TextInput
                 type="email"
                 placeholder="name@company.com"
@@ -131,8 +141,9 @@ export default function SignUp() {
                 onChange={handleChange}
               />
             </div>
+
             <div>
-              <Label value="Your password" />
+              <Label value="Your Password" />
               <TextInput
                 type="password"
                 placeholder="Password"
@@ -140,10 +151,11 @@ export default function SignUp() {
                 onChange={handleChange}
               />
             </div>
+
             <Button
-              gradientDuoTone="purpleToPink"
               type="submit"
               disabled={loading}
+              className="bg-gradient-to-r from-purple-600 to-blue-500 text-white hover:opacity-90"
             >
               {loading ? (
                 <>
@@ -154,14 +166,15 @@ export default function SignUp() {
                 "Sign Up"
               )}
             </Button>
-            {/* <OAuth /> */}
           </form>
-          <div className="flex gap-2 text-sm mt-5">
-            <span>Have an account?</span>
-            <Link to="/sign-in" className="text-blue-500">
+
+          <div className="flex gap-2 text-sm mt-5 text-gray-600 dark:text-gray-400">
+            <span>Already have an account?</span>
+            <Link to="/sign-in" className="text-blue-600 hover:underline">
               Sign In
             </Link>
           </div>
+
           {errorMessage && (
             <Alert className="mt-5" color="failure">
               {errorMessage}

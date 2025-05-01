@@ -26,7 +26,7 @@ export default function HomeSidebar() {
   };
 
   return (
-    <Sidebar className="w-full md:w-64 bg-white shadow-md">
+    <Sidebar className="w-full md:w-64 shadow-md">
       {/* Profile Section */}
       <div className="flex flex-col items-center p-6 border-b border-gray-200">
         <img

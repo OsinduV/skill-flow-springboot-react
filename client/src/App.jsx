@@ -18,6 +18,7 @@ import TemplateSelectionPage from "./pages/progressUpdate/TemplateSelectionPage.
 import ProgressForm from "./pages/progressUpdate/ProgressForm.jsx";
 import HomeLayout from "./pages/HomeLayout.jsx";
 import UserProgressPosts from "./pages/progressUpdate/UserProgressPosts.jsx";
+import FooterCom from "./components/Footer.jsx";
 
 export default function App() {
   return (
@@ -30,25 +31,34 @@ export default function App() {
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/sign-up" element={<Signup />} />
 
-        <Route path="/home" element={<HomeLayout />}>
-          <Route index element={<HomePost />} />
-          <Route path="learning-plan" element={<LearningPlanList />} />
-          <Route path="create-learning-plan" element={<CreateLearningPlan />} />
-          <Route path="view-learning-plan/:planId" element={<ViewLearningPlan />} />
-          <Route
-            path="progress/template-select/:planId"
-            element={<TemplateSelectionPage />}
-          />
-          <Route path="progress/create/:planId" element={<ProgressForm />} />
-          <Route path="progress/view-user-progress-updates" element={<UserProgressPosts />} />
-        </Route>
-
         <Route element={<PrivateRoute />}>
+          <Route path="/home" element={<HomeLayout />}>
+            <Route index element={<HomePost />} />
+            <Route path="learning-plan" element={<LearningPlanList />} />
+            <Route
+              path="create-learning-plan"
+              element={<CreateLearningPlan />}
+            />
+            <Route
+              path="view-learning-plan/:planId"
+              element={<ViewLearningPlan />}
+            />
+            <Route
+              path="progress/template-select/:planId"
+              element={<TemplateSelectionPage />}
+            />
+            <Route path="progress/create/:planId" element={<ProgressForm />} />
+            <Route
+              path="progress/view-user-progress-updates"
+              element={<UserProgressPosts />}
+            />
+          </Route>
           {/* private routes */}
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
       <Toaster position="top-right" reverseOrder={false} />
+      <FooterCom />
     </BrowserRouter>
   );
 }
