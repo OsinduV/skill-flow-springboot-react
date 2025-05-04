@@ -1,91 +1,116 @@
-import React from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import { Button, Avatar } from "flowbite-react";
+import { motion } from "framer-motion";
+import UserProgressPosts from "../pages/progressUpdate/UserProgressPosts";
+import HomePost from "../pages/post/HomePost";
+import { HiOutlineDocumentText, HiOutlineLightBulb, HiOutlineChartBar } from "react-icons/hi";
+import LearningPlanList from "../pages/learningPlan/LearningPlan";
 
 export default function DashProfile() {
+  const { currentUser } = useSelector((state) => state.user);
+  const [activeTab, setActiveTab] = useState("posts");
 
-    const { currentUser, error, loading } = useSelector((state) => state.user);
+  const fullName = `${currentUser.firstName} ${currentUser.lastName}`;
+
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case "posts":
+        return <div className="grid gap-4"><HomePost /></div>;
+      case "plans":
+        return <div className="grid gap-4"><LearningPlanList /></div>;
+      case "progress":
+        return (
+          <div className="grid gap-4">
+            <UserProgressPosts />
+          </div>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center py-10">
-      {/* Profile Card */}
-      <div className=" shadow-md rounded-lg p-6 w-11/12 md:w-2/3 lg:w-1/2">
-        <div className="flex flex-col items-center gap-1 w-full">
-          {/* Profile Picture */}
-          <div className="w-32 h-32 rounded-full overflow-hidden border-2 border-blue-500">
-            <img
-              src={currentUser.profilePicture}
-              alt="Profile"
-              className="w-full h-full object-cover"
-            />
+    <div className="max-w-4xl w-full mx-auto p-4 border border-gray-200 rounded-lg my-4 shadow-md overflow-hidden dark:bg-gray-800 dark:border-gray-700">
+      {/* Cover Image */}
+      <div className="h-48 w-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl shadow-md relative">
+        <img
+          src={currentUser.profilePicture}
+          alt="profile"
+          className="w-36 h-36 rounded-full border-4 border-white absolute left-8 bottom-[-3rem] shadow-xl"
+        />
+      </div>
+
+      <div className="flex flex-col md:flex-row justify-between items-center max-w-xl w-full">
+        {/* Profile Info */}
+        <div className="mt-16 flex gap-6 items-center">
+          <div>
+            <h2 className="text-2xl font-bold">{fullName}</h2>
+            <p className="text-sm text-gray-600">{currentUser.email}</p>
+            <p className="text-sm text-gray-500">{currentUser.gender}</p>
           </div>
-          <div className="flex flex-col items-center">
-            {/* User Name */}
-            <h1 className="text-2xl font-semibold mt-4">{currentUser.firstName} {currentUser.lastName}</h1>
-            {/* Email */}
-            <p className="text-gray-600 dark:text-gray-400 text-center mt-1">
-            {currentUser.email}
+          <Button size="xs" className="bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:bg-gradient-to-l focus:ring-purple-200 dark:focus:ring-purple-800" outline>
+            Edit Profile
+          </Button>
+        </div>
+
+        {/* Stats */}
+        <div className="flex gap-8 mt-6 text-center">
+          <div>
+            <p className="text-xl font-semibold">
+              {currentUser.followers.length}
             </p>
+            <p className="text-sm text-gray-600">Followers</p>
           </div>
-          {/* Stats */}
-          <div className="flex justify-around w-full mt-4">
-            <div className="text-center">
-              <h2 className="text-lg">Posts</h2>
-              <p className="text-gray-600 dark:text-gray-200 font-bold text-xl">12</p>
-            </div>
-            <div className="text-center">
-              <h2 className="text-lg">Followers</h2>
-              <p className="text-gray-600 dark:text-gray-200 font-bold text-xl">{currentUser.followers ? currentUser.followers.length : 0}</p>
-            </div>
-            <div className="text-center">
-              <h2 className="text-lg">Following</h2>
-              <p className="text-gray-600 dark:text-gray-200 font-bold text-xl">{currentUser.followings ? currentUser.followings.length : 0}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Horizontal Line */}
-        <hr className="my-6 border-gray-300 dark:border-gray-700" />
-
-        {/* Skills Section */}
-        <div className="mt-6 w-full">
-          <h2 className="text-lg font-semibold text-gray-800">Skills</h2>
-          <div className="flex flex-wrap gap-2 mt-2">
-            <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
-              JavaScript
-            </span>
-            <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
-              React
-            </span>
-            <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
-              Tailwind CSS
-            </span>
-            <span className="bg-blue-100 text-blue-800 text-sm font-medium px-3 py-1 rounded-full">
-              Node.js
-            </span>
-          </div>
-        </div>
-
-        {/* Posts Section */}
-        <div className="mt-6">
-          <h2 className="text-lg font-semibold text-gray-800">Recent Posts</h2>
-          <div className="mt-4 space-y-4">
-            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-              <h3 className="text-md font-semibold">How to Build a REST API</h3>
-              <p className="text-sm text-gray-600 mt-1">
-                A quick guide to building REST APIs with Node.js and Express.
-              </p>
-            </div>
-            <div className="bg-gray-50 p-4 rounded-lg shadow-sm">
-              <h3 className="text-md font-semibold">
-                Understanding Tailwind CSS
-              </h3>
-              <p className="text-sm text-gray-600 mt-1">
-                Learn how to style your applications faster with Tailwind CSS.
-              </p>
-            </div>
+          <div>
+            <p className="text-xl font-semibold">
+              {currentUser.followings.length}
+            </p>
+            <p className="text-sm text-gray-600">Following</p>
           </div>
         </div>
       </div>
+
+
+      {/* Tabs */}
+      <div className="mt-8 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex flex-wrap justify-center space-x-6 text-gray-600 dark:text-gray-300">
+          <button
+            className={`flex items-center gap-2 pb-3 px-4 transition-all duration-150 ease-in-out hover:text-purple-600 ${
+              activeTab === "posts" ? "border-b-2 border-purple-600 font-semibold text-purple-700" : ""
+            }`}
+            onClick={() => setActiveTab("posts")}
+          >
+            <HiOutlineDocumentText className="text-lg" /> Posts
+          </button>
+          <button
+            className={`flex items-center gap-2 pb-3 px-4 transition-all duration-150 ease-in-out hover:text-purple-600 ${
+              activeTab === "plans" ? "border-b-2 border-purple-600 font-semibold text-purple-700" : ""
+            }`}
+            onClick={() => setActiveTab("plans")}
+          >
+            <HiOutlineLightBulb className="text-lg" /> Learning Plans
+          </button>
+          <button
+            className={`flex items-center gap-2 pb-3 px-4 transition-all duration-150 ease-in-out hover:text-purple-600 ${
+              activeTab === "progress" ? "border-b-2 border-purple-600 font-semibold text-purple-700" : ""
+            }`}
+            onClick={() => setActiveTab("progress")}
+          >
+            <HiOutlineChartBar className="text-lg" /> Progress Updates
+          </button>
+        </div>
+      </div>
+
+      {/* Tab Content */}
+      <motion.div
+        className="mt-6"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+      >
+        {renderTabContent()}
+      </motion.div>
     </div>
   );
 }

@@ -16,29 +16,27 @@ export default function Header() {
   const { theme } = useSelector((state) => state.theme);
   const [searchTerm, setSearchTerm] = useState("");
 
-//   useEffect(() => {
-//     const urlParams = new URLSearchParams(location.search);
-//     const searchTermFromUrl = urlParams.get("searchTerm");
-//     if (searchTermFromUrl) {
-//       setSearchTerm(searchTermFromUrl);
-//     }
-//   }, [location.search]);
+  //   useEffect(() => {
+  //     const urlParams = new URLSearchParams(location.search);
+  //     const searchTermFromUrl = urlParams.get("searchTerm");
+  //     if (searchTermFromUrl) {
+  //       setSearchTerm(searchTermFromUrl);
+  //     }
+  //   }, [location.search]);
 
   const handleSignout = async () => {
-
     try {
       // Clear the auth token from local storage
-      localStorage.removeItem('authToken');
-  
+      localStorage.removeItem("authToken");
+
       // Dispatch the signoutSuccess action to clear the user state
       dispatch(signoutSuccess());
-  
+
       // Navigate the user to the home page
-      navigate('/');
+      navigate("/");
     } catch (error) {
-      console.error('Error during signout:', error);
+      console.error("Error during signout:", error);
     }
-    
   };
 
   const handleSubmit = (e) => {
@@ -104,17 +102,20 @@ export default function Header() {
             <Dropdown.Item onClick={handleSignout}>Sign out</Dropdown.Item>
           </Dropdown>
         ) : (
-          <Link to="/sign-in">
-            <Button gradientDuoTone="purpleToBlue" outline>
-              Sign In
-            </Button>
-          </Link>
+          !["/sign-in", "/sign-up"].includes(path) && (
+            <Link to="/sign-in">
+              <Button gradientDuoTone="purpleToBlue" outline>
+                Sign In
+              </Button>
+            </Link>
+          )
         )}
+
         <Navbar.Toggle />
       </div>
       <Navbar.Collapse>
         <Navbar.Link active={path === "/"} as={"div"}>
-          <Link to="/">Home</Link>
+          <Link to={currentUser ? "/home" : "/"}>Home</Link>
         </Navbar.Link>
         <Navbar.Link active={path === "/about"} as={"div"}>
           <Link to="/about">About</Link>
