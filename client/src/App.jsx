@@ -19,6 +19,8 @@ import ProgressForm from "./pages/progressUpdate/ProgressForm.jsx";
 import HomeLayout from "./pages/HomeLayout.jsx";
 import UserProgressPosts from "./pages/progressUpdate/UserProgressPosts.jsx";
 import FooterCom from "./components/Footer.jsx";
+import UpdateLearningPlan from "./pages/learningPlan/UpdateLearningPlan.jsx";
+import DeleteLearningPlan from "./pages/learningPlan/DeleteLearningPlan.jsx";
 
 export default function App() {
   return (
@@ -42,6 +44,14 @@ export default function App() {
             <Route
               path="view-learning-plan/:planId"
               element={<ViewLearningPlan />}
+            />
+            <Route
+              path="update-learning-plan/:planId"
+              element={<UpdateLearningPlan />}
+            />
+             <Route
+              path="delete-learning-plan/:planId"
+              element={<DeleteLearningPlan />}
             />
             <Route
               path="progress/template-select/:planId"
