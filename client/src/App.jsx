@@ -45,10 +45,10 @@ export default function App() {
               path="view-learning-plan/:planId"
               element={<ViewLearningPlan />}
             />
-            <Route
+             <Route
               path="update-learning-plan/:planId"
               element={<UpdateLearningPlan />}
-            />
+            /> 
              <Route
               path="delete-learning-plan/:planId"
               element={<DeleteLearningPlan />}

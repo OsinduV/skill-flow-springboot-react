@@ -1,10 +1,11 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Card, Label, TextInput, Textarea } from "flowbite-react";
 import axios from "../../utils/axios"; // Adjust path if different
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 export default function UpdateLearningPlan() {
+    const {planId} = useParams();
   const navigate = useNavigate();
 
   const { currentUser } = useSelector((state) => state.user);
@@ -25,6 +26,21 @@ export default function UpdateLearningPlan() {
   });
 
   const [editingIndex, setEditingIndex] = useState(null);
+
+  useEffect(()=>{
+    if(!planId) return;
+    const fethData = async()=>{
+        try{
+
+            const res = await axios.get(`learning-plans/${planId}`);
+            setPlan(res.data);
+        }
+        catch(err){
+            console.log("Error fetching Plan",err);
+        }
+    };
+    fethData();
+  },[planId])
 
   const handlePlanChange = (e) => {
     setPlan({ ...plan, [e.target.name]: e.target.value });
@@ -62,19 +78,6 @@ export default function UpdateLearningPlan() {
     setPlan({ ...plan, items: updatedItems });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const userId = currentUser.id;
-      const payload = { ...plan, userId };
-      const res = await axios.post("/learning-plans/with-items", payload);
-      console.log(res.data);
-      navigate("/?tab=learningplan");
-    } catch (err) {
-      console.error("Failed to create learning plan", err);
-    }
-  };
-
   const handleEditItem = (index) => {
     setNewItem(plan.items[index]);
     setEditingIndex(index);
@@ -94,11 +97,27 @@ export default function UpdateLearningPlan() {
     setPlan({ ...plan, items: updatedItems });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const userId = currentUser.id;
+      const payload = { ...plan, userId };
+      const res = await axios.put(`/learning-plans/${planId}`, payload);
+      navigate("/home/learning-plan");
+      console.log(res.data);
+     
+    } catch (err) {
+      console.error("Failed to create learning plan", err);
+    }
+  };
+
+ 
+
   return (
     <div className="flex flex-col items-center justify-center p-6 mx-auto">
       <Card className="w-full max-w-3xl">
         <h1 className="text-2xl font-semibold mb-4">
-          Update New Learning Plan
+          Update Your Learning Plan
         </h1>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
           <div>
@@ -240,7 +259,7 @@ export default function UpdateLearningPlan() {
           </div>
 
           <Button type="submit" gradientDuoTone="purpleToBlue">
-            Create Learning Plan
+            Update Learning Plan
           </Button>
         </form>
       </Card>
