@@ -91,6 +91,22 @@ export default function ViewLearningPlan() {
     }
   };
 
+  const handleDeletePlan = (planId) => {
+    if (window.confirm("Are you sure to delete this Learning Plan?")) {
+      axios
+        .delete(`/learning-plans/${planId}`)
+        .then(() => {
+          // setPlan(plan.filter((item) => item.planId !== planId)); // Use _id if that's your ID
+          // alert("Plan is deleted successfully");
+          toast.success("Plan deleted successfully!");
+          navigate("/home/learning-plan", { state: { refresh: true } });
+        })
+        .catch((error) => {
+          console.error("Error deleting plan:", error);
+        });
+    }
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -248,6 +264,23 @@ export default function ViewLearningPlan() {
       >
         ⬅️ Back to Plans
       </Button>
+      <Button
+        onClick={() => navigate(`/home/update-learning-plan/${planId}`)}
+        gradientDuoTone="purpleToBlue"
+        className=" w-full"
+      >
+        ⬅️ Update My Plan
+      </Button>
+      <Button
+        onClick={() => {
+          handleDeletePlan(planId);
+        }}
+        gradientDuoTone="purpleToBlue"
+        className="w-full"
+      >
+        ⬅️ Delete My Plan
+      </Button>
+
       {/* </div> */}
     </div>
 

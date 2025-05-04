@@ -35,7 +35,7 @@ export default function DashProfile() {
       {/* Cover Image */}
       <div className="h-48 w-full bg-gradient-to-r from-purple-500 to-blue-500 rounded-xl shadow-md relative">
         <img
-          src={currentUser.profilePicture}
+          src={currentUser.profilePicture ? currentUser.profilePicture : ""}
           alt="profile"
           className="w-36 h-36 rounded-full border-4 border-white absolute left-8 bottom-[-3rem] shadow-xl"
         />
@@ -58,13 +58,13 @@ export default function DashProfile() {
         <div className="flex gap-8 mt-6 text-center">
           <div>
             <p className="text-xl font-semibold">
-              {currentUser.followers.length}
+              {currentUser.followers ? currentUser.followers.length : 0}
             </p>
             <p className="text-sm text-gray-600">Followers</p>
           </div>
           <div>
             <p className="text-xl font-semibold">
-              {currentUser.followings.length}
+              {currentUser.followings ? currentUser.followings.length : 0}
             </p>
             <p className="text-sm text-gray-600">Following</p>
           </div>
