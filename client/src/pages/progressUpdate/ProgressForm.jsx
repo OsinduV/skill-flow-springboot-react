@@ -18,6 +18,8 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 const defaultContentMap = {
+
+  
   CERTIFICATE: {
     title: "Certificate Unlocked in {plan}!",
     description: "I've achieved a new milestone in '{plan}' with {progress} progress! 📜 #Milestone #Learning",
@@ -98,6 +100,7 @@ export default function ProgressForm() {
   }, [template, planTitle, progress, planId]);
 
   useEffect(() => {
+    
     const fetchPlan = async () => {
       if (planId !== "null") {
         try {
@@ -111,6 +114,7 @@ export default function ProgressForm() {
     };
     fetchPlan();
   }, [planId]);
+  
 
   const handleMediaSelect = (e) => {
     const selected = Array.from(e.target.files);
@@ -161,6 +165,7 @@ export default function ProgressForm() {
 
     try {
       setLoading(true);
+      
       toast.loading("Uploading media...", { id: "uploading" });
 
       const uploadedMedia = await Promise.all(mediaFiles.map(uploadToFirebase));
@@ -189,15 +194,15 @@ export default function ProgressForm() {
   const selectedTemplate = defaultContentMap[template];
 
   return (
-    <div className="min-h-screen flex justify-center items-center p-6">
+    <div className="flex items-center justify-center min-h-screen p-6">
       <Card className="w-full max-w-3xl">
-        <h1 className="text-2xl font-bold mb-4 text-center">
+        <h1 className="mb-4 text-2xl font-bold text-center">
           Share Your Progress
         </h1>
 
         {/* Learning Plan Preview */}
         {planId !== "null" && (
-          <div className="flex items-center gap-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-md border mb-4">
+          <div className="flex items-center gap-4 p-3 mb-4 border rounded-md bg-gray-50 dark:bg-gray-800">
             <div className="w-14 h-14">
               <CircularProgressbar
                 value={progress}
@@ -218,11 +223,11 @@ export default function ProgressForm() {
         )}
 
         {/* Template Preview */}
-        <div className="flex items-center gap-4 bg-gray-50 dark:bg-gray-800 p-3 rounded-md border mb-4">
+        <div className="flex items-center gap-4 p-3 mb-4 border rounded-md bg-gray-50 dark:bg-gray-800">
           <img
             src={selectedTemplate.image}
             alt={template}
-            className="w-16 h-16 rounded object-cover border"
+            className="object-cover w-16 h-16 border rounded"
           />
           <div className="flex-1">
             <p className="text-sm text-gray-500">Selected Template</p>
@@ -293,13 +298,13 @@ export default function ProgressForm() {
                         <img
                           src={url}
                           alt="preview"
-                          className="w-full h-24 rounded object-cover"
+                          className="object-cover w-full h-24 rounded"
                         />
                       ) : (
                         <video
                           src={url}
                           controls
-                          className="w-full h-24 rounded object-cover"
+                          className="object-cover w-full h-24 rounded"
                         />
                       )}
                       <button

@@ -19,6 +19,7 @@ import ProgressForm from "./pages/progressUpdate/ProgressForm.jsx";
 import HomeLayout from "./pages/HomeLayout.jsx";
 import UserProgressPosts from "./pages/progressUpdate/UserProgressPosts.jsx";
 import FooterCom from "./components/Footer.jsx";
+import PostComment from "./pages/comments/PostComment.jsx";
 
 export default function App() {
   return (
@@ -43,11 +44,13 @@ export default function App() {
               path="view-learning-plan/:planId"
               element={<ViewLearningPlan />}
             />
+            
             <Route
               path="progress/template-select/:planId"
               element={<TemplateSelectionPage />}
             />
             <Route path="progress/create/:planId" element={<ProgressForm />} />
+            
             <Route
               path="progress/view-user-progress-updates"
               element={<UserProgressPosts />}
@@ -55,6 +58,9 @@ export default function App() {
           </Route>
           {/* private routes */}
           <Route path="/dashboard" element={<Dashboard />} />
+
+
+          <Route path="/comment-post" element={<PostComment/>}/>
         </Route>
       </Routes>
       <Toaster position="top-right" reverseOrder={false} />

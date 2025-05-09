@@ -17,6 +17,7 @@ function UploadComponent() {
   };
 
   const validateFiles = (files) => {
+    
     const videoFiles = files.filter((file) => file.type.startsWith('video/'));
     if (videoFiles.length > 0) {
       const video = document.createElement('video');
@@ -48,6 +49,8 @@ function UploadComponent() {
     alert('Uploaded Successfully!');
   };
 
+
+  
   return (
     <div>
       <input

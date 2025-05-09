@@ -17,6 +17,7 @@ export default function CreateLearningPlan() {
     items: [],
   });
   console.log("plan", plan);
+  
   const [newItem, setNewItem] = useState({
     title: "",
     resourceLink: "",
@@ -97,7 +98,7 @@ export default function CreateLearningPlan() {
   return (
     <div className="flex flex-col items-center justify-center p-6 mx-auto">
       <Card className="w-full max-w-3xl">
-        <h1 className="text-2xl font-semibold mb-4">
+        <h1 className="mb-4 text-2xl font-semibold">
           Create New Learning Plan
         </h1>
         <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
@@ -111,6 +112,8 @@ export default function CreateLearningPlan() {
               required
             />
           </div>
+
+          
           <div>
             <Label htmlFor="description" value="Description" />
             <Textarea
@@ -121,6 +124,8 @@ export default function CreateLearningPlan() {
               required
             />
           </div>
+
+          
           <div>
             <Label htmlFor="dueDate" value="Due Date" />
             <TextInput
@@ -132,6 +137,9 @@ export default function CreateLearningPlan() {
               required
             />
           </div>
+
+
+          
           <div>
             <Label htmlFor="resources" value="Resources (Comma Separated)" />
             <TextInput
@@ -143,8 +151,8 @@ export default function CreateLearningPlan() {
           </div>
 
           <div className="mt-6">
-            <h2 className="text-xl font-semibold mb-2">Add Plan Items</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <h2 className="mb-2 text-xl font-semibold">Add Plan Items</h2>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
               <TextInput
                 placeholder="Topic Title"
                 name="title"
@@ -178,7 +186,7 @@ export default function CreateLearningPlan() {
               {/* {plan.items.map((item, index) => (
                 <div
                   key={index}
-                  className="flex justify-between items-center bg-gray-100 p-2 rounded mb-2"
+                  className="flex items-center justify-between p-2 mb-2 bg-gray-100 rounded"
                 >
                   <div>
                     <p className="font-medium">{item.title}</p>
@@ -196,7 +204,7 @@ export default function CreateLearningPlan() {
               {plan.items.map((item, index) => (
                 <div
                   key={index}
-                  className="flex justify-between items-center bg-gray-100 p-2 rounded mb-2"
+                  className="flex items-center justify-between p-2 mb-2 bg-gray-100 rounded"
                 >
                   <div>
                     <p className="font-medium">{item.title}</p>

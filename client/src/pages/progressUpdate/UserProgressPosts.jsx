@@ -15,6 +15,7 @@ export default function UserProgressPosts() {
         const userId = currentUser.id;
         const res = await axios.get(`/progress/user/${userId}`);
         setPosts(res.data);
+      
       } catch (err) {
         console.error("Failed to load posts", err);
       }
@@ -23,8 +24,9 @@ export default function UserProgressPosts() {
   }, []);
 
   return (
-    <div className="h-screen w-full overflow-y-scroll py-10 px-4">
+    <div className="w-full h-screen px-4 py-10 overflow-y-scroll">
       {/* <CreatePost /> */}
+      
       {posts.map((post) => (
         <ProgressPostSection key={post.id} post={post} />
       ))}
