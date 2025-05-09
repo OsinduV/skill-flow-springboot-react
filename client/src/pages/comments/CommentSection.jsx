@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import axios from "../../utils/axios.js";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
 import "./CommentSection.css";
@@ -13,7 +13,7 @@ const CommentSection = ({ postId, currentUserId }) => {
     const fetchComments = async () => {
       try {
         
-        const res = await axios.get(`/api/comments/post/${postId}`);
+        const res = await axios.get(`/comments/post/${postId}`);
         
         // setComments(res.data);
         setComments(Array.isArray(res.data) ? res.data : []); // Force array

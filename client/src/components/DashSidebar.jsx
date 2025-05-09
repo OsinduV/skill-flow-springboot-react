@@ -3,6 +3,7 @@ import {
   HiUser,
   HiArrowSmRight,
   HiDocumentText,
+  HiChatAlt2,
   HiOutlineUserGroup,
   HiAnnotation,
   HiChartPie,
@@ -99,7 +100,7 @@ export default function DashSidebar() {
               <Link to="/dashboard?tab=comments">
                 <Sidebar.Item
                   active={tab === "comments"}
-                  icon={HiAnnotation}
+                  icon={HiChatAlt2}
                   as="div"
                 >
                   Comments

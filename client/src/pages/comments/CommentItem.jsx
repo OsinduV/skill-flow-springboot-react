@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import axios from "../../utils/axios.js";
 import CommentForm from "./CommentForm";
 
 const CommentItem = ({
@@ -25,7 +25,7 @@ const CommentItem = ({
   useEffect(() => {
     const fetchLikeCount = async () => {
       try {
-        const res = await axios.get(`/api/comments/${comment.id}/like-count`);
+        const res = await axios.get(`/comments/${comment.id}/like-count`);
         setLikes(res.data);
       } catch (err) {
         console.error("Failed to fetch like count", err);
@@ -39,7 +39,7 @@ const CommentItem = ({
   useEffect(() => {
     const fetchReplyCount = async () => {
       try {
-        const res = await axios.get(`/api/comments/${comment.id}/reply-count`);
+        const res = await axios.get(`/comments/${comment.id}/reply-count`);
         setReplyCount(res.data);
       } 
       catch (err) 
@@ -57,13 +57,13 @@ const CommentItem = ({
   const handleLike = async () => {
     try {
       if (isLiked) {
-        const res = await axios.delete(`/api/comments/${comment.id}/unlike`, {
+        const res = await axios.delete(`/comments/${comment.id}/unlike`, {
           params: { userId: currentUserId },
         });
         setLikes(res.data.numberOfLikes); // Changed to numberOfLikes
         setIsLiked(false);
       } else {
-        const res = await axios.post(`/api/comments/${comment.id}/like`, null, {
+        const res = await axios.post(`/comments/${comment.id}/like`, null, {
           params: { userId: currentUserId },
         });
         setLikes(res.data.numberOfLikes); // Changed to numberOfLikes
@@ -76,7 +76,7 @@ const CommentItem = ({
 
   const handleUpdate = async () => {
     try {
-      const res = await axios.put(`/api/comments/${comment.id}`, {
+      const res = await axios.put(`/comments/${comment.id}`, {
         content: editedContent,
       });
       onUpdate(res.data);
@@ -88,7 +88,7 @@ const CommentItem = ({
 
   const handleDelete = async () => {
     try {
-      await axios.delete(`/api/comments/${comment.id}`);
+      await axios.delete(`/comments/${comment.id}`);
       onDelete(comment.id);
     } catch (err) {
       console.error("Failed to delete comment", err);
@@ -108,7 +108,7 @@ const CommentItem = ({
   const loadReplies = async () => {
     if (!showReplies && replies.length === 0) {
       try {
-        const res = await axios.get(`/api/comments/${comment.id}/replies`);
+        const res = await axios.get(`/comments/${comment.id}/replies`);
         setReplies(res.data);
       } catch (err) {
         console.error("Failed to load replies:", err);

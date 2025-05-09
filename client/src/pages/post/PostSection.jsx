@@ -107,7 +107,7 @@ export default function Post() {
             className="flex items-center text-lg text-gray-500 hover:text-blue-500"
           >
             <FaRegCommentDots className="mr-1" />
-            <span>Commentnn</span>
+            <span>Commentn</span>
           </button>
         </div>
       </div>
@@ -115,7 +115,7 @@ export default function Post() {
       {/* <CommentSection /> */}
       {/* Comment Modal */}
       <Modal show={isModalOpen} onClose={handleModalClose}>
-        <Modal.Header>Commentsjj</Modal.Header>
+        <Modal.Header>Comments</Modal.Header>
         <Modal.Body>
           <CommentSection postId={1} currentUserId={1} />
         </Modal.Body>

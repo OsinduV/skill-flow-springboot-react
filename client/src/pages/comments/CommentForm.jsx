@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import  axios from '../../utils/axios.js'
 import "./CommentForm.css";
 
 const CommentForm = ({ postId, userId, parentId = null, onCommentCreated }) => {
@@ -19,14 +19,14 @@ const CommentForm = ({ postId, userId, parentId = null, onCommentCreated }) => {
       let response;
 
       if (parentId) {
-        response = await axios.post(`/api/comments/${parentId}/replies`, {
+        response = await axios.post(`/comments/${parentId}/replies`, {
           content,
           postId,
           userId,
         });
       } 
       else {
-        response = await axios.post("/api/comments", {
+        response = await axios.post("/comments", {
           content,
           postId,
           userId,
