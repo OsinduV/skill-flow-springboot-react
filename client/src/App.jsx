@@ -19,6 +19,9 @@ import ProgressForm from "./pages/progressUpdate/ProgressForm.jsx";
 import HomeLayout from "./pages/HomeLayout.jsx";
 import UserProgressPosts from "./pages/progressUpdate/UserProgressPosts.jsx";
 import FooterCom from "./components/Footer.jsx";
+import GenerateLearningPlanForm from "./pages/learningPlan/GenerateLearningPlanForm.jsx";
+import ViewGeneratedPlan from "./pages/learningPlan/ViewGeneratedPlan.jsx";
+import EditGeneratedPlan from "./pages/learningPlan/EditGeneratedPlan.jsx";
 
 export default function App() {
   return (
@@ -40,9 +43,15 @@ export default function App() {
               element={<CreateLearningPlan />}
             />
             <Route
+              path="generate-learning-plan"
+              element={<GenerateLearningPlanForm />}
+            />
+            <Route path="view-generated-plan" element={<ViewGeneratedPlan />} />
+            <Route
               path="view-learning-plan/:planId"
               element={<ViewLearningPlan />}
             />
+            <Route path="edit-generated" element={<EditGeneratedPlan />} />
             <Route
               path="progress/template-select/:planId"
               element={<TemplateSelectionPage />}
