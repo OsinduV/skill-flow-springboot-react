@@ -19,6 +19,7 @@ import ProgressForm from "./pages/progressUpdate/ProgressForm.jsx";
 import HomeLayout from "./pages/HomeLayout.jsx";
 import UserProgressPosts from "./pages/progressUpdate/UserProgressPosts.jsx";
 import FooterCom from "./components/Footer.jsx";
+import EditProgressPost from "./pages/progressUpdate/EditProgressPost.jsx";
 
 export default function App() {
   return (
@@ -52,6 +53,8 @@ export default function App() {
               path="progress/view-user-progress-updates"
               element={<UserProgressPosts />}
             />
+            <Route path="progress/edit/:id" element={<EditProgressPost />} />
+
           </Route>
           {/* private routes */}
           <Route path="/dashboard" element={<Dashboard />} />
