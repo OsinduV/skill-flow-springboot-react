@@ -1,11 +1,17 @@
 import React, { useState } from "react";
 import { Modal } from "flowbite-react";
 import { FaPhotoVideo, FaVideo } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function CreatePost() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [postContent, setPostContent] = useState("");
   const [uploadedPhoto, setUploadedPhoto] = useState(null);
+  const navigate = useNavigate();
+  const { currentUser } = useSelector((state) => state.user);
+
+  const userAvatar = currentUser?.profilePicture || "/default-avatar.png";
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
@@ -35,12 +41,12 @@ export default function CreatePost() {
       {/* Create Post Button */}
       <div className="flex items-center">
         <img
-          src="https://cdn.pixabay.com/photo/2016/09/24/03/20/man-1690965_1280.jpg"
+          src={userAvatar}
           alt="User Avatar"
           className="w-12 h-12 rounded-full object-cover"
         />
         <button
-          onClick={handleOpenModal}
+          onClick={() => navigate("/home/skill-post/create")}
           className="ml-4 flex-grow px-4 py-2 text-left text-gray-500 bg-gray-100 rounded-full hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
         >
           Create a post
@@ -48,11 +54,11 @@ export default function CreatePost() {
       </div>
 
       <div className="flex justify-between mt-4">
-        <button className="flex items-center text-gray-500 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400">
+        <button className="flex items-center text-gray-500 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400" onClick={() => navigate("/home/skill-post/create")}>
           <FaPhotoVideo className="mr-2" />
           <span>Add Photo</span>
         </button>
-        <button className="flex items-center text-gray-500 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400">
+        <button className="flex items-center text-gray-500 hover:text-blue-500 dark:text-gray-300 dark:hover:text-blue-400" onClick={() => navigate("/home/skill-post/create")}>
           <FaVideo className="mr-2" />
           <span>Add Video</span>
         </button>

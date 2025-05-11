@@ -19,6 +19,7 @@ import ProgressForm from "./pages/progressUpdate/ProgressForm.jsx";
 import HomeLayout from "./pages/HomeLayout.jsx";
 import UserProgressPosts from "./pages/progressUpdate/UserProgressPosts.jsx";
 import FooterCom from "./components/Footer.jsx";
+import CreateSkillPost from "./pages/post/CreateSkillPost.jsx";
 
 import GenerateLearningPlanForm from "./pages/learningPlan/GenerateLearningPlanForm.jsx";
 import ViewGeneratedPlan from "./pages/learningPlan/ViewGeneratedPlan.jsx";
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/sign-up" element={<Signup />} />
 
+            {/* private routes */}
         <Route element={<PrivateRoute />}>
           <Route path="/home" element={<HomeLayout />}>
             <Route index element={<HomePost />} />
@@ -65,10 +67,18 @@ export default function App() {
               path="progress/view-user-progress-updates"
               element={<UserProgressPosts />}
             />
+
+            <Route
+              path="skill-post/create"
+              element={<CreateSkillPost />}
+            />
+
             <Route path="progress/edit/:id" element={<EditProgressPost />} />
 
+
           </Route>
-          {/* private routes */}
+
+
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
       </Routes>
