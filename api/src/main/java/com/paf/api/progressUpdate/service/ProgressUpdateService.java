@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -88,14 +89,32 @@ public class ProgressUpdateService {
             if (request.getMediaList().size() > 3)
                 throw new RuntimeException("You can upload up to 3 media files only.");
 
-            mediaRepo.deleteAll(existing.getMediaAttachments());
+//            mediaRepo.deleteAll(existing.getMediaAttachments());
 
-            for (MediaAttachment media : request.getMediaList()) {
-                media.setProgressUpdate(existing);
-            }
+            // for (MediaAttachment media : request.getMediaList()) {
+            //     media.setProgressUpdate(existing);
+            // }
 
-            mediaRepo.saveAll(request.getMediaList());
-            existing.setMediaAttachments(request.getMediaList());
+            // mediaRepo.saveAll(request.getMediaList());
+            // existing.setMediaAttachments(request.getMediaList());
+
+            // Clear existing attachments (orphanRemoval = true)
+            existing.getMediaAttachments().clear();
+
+// Add new media attachments (attach to the same collection)
+            List<MediaAttachment> newMediaList = request.getMediaList().stream()
+                    .map(media -> MediaAttachment.builder()
+                            .fileUrl(media.getFileUrl())
+                            .mediaType(media.getMediaType())
+                            .progressUpdate(existing)
+                            .build())
+                    .collect(Collectors.toList());
+
+            existing.getMediaAttachments().addAll(newMediaList);
+
+
+//            mediaRepo.saveAll(newMediaList);
+//            existing.setMediaAttachments(newMediaList);
         }
 
         return toDto(progressRepo.save(existing));

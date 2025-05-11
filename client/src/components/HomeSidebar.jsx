@@ -64,6 +64,14 @@ export default function HomeSidebar() {
           >
             Learning Plans
           </Sidebar.Item>
+          <Sidebar.Item
+            icon={() => <HiBookOpen className="text-green-600 text-xl" />}
+            as="div"
+            onClick={() => navigate("/home/generate-learning-plan")}
+            active={location.pathname.startsWith("/home/generate-learning-plan")}
+          >
+            Generate LP
+          </Sidebar.Item>
 
           <Sidebar.Item
             icon={() => <HiDocumentText className="text-purple-600 text-xl" />}
