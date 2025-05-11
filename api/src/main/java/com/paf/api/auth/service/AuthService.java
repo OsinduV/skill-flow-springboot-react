@@ -94,4 +94,27 @@ public class AuthService {
 
         return res;
     }
+
+    public AuthResponse loginWithGoogle(UserRequest userRequest) {
+        Optional<User> existingUser = userRepository.findByEmail(userRequest.email());
+        User user;
+
+        if (existingUser.isPresent()) {
+            user = existingUser.get();
+        } else {
+            // Create a new user with default values from Google
+            user = new User();
+            user.setFirstName(userRequest.firstName()); // set full name into firstName
+            user.setLastName(""); // optional: split name if needed
+            user.setEmail(userRequest.email());
+            user.setProfilePicture(userRequest.profilePicture());
+            user = userRepository.save(user);
+        }
+
+        // Generate token
+        String token = jwtService.generateToken(user.getEmail());
+
+        return new AuthResponse(token, "Google OAuth successful", user);
+    }
+
 }

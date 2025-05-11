@@ -20,6 +20,13 @@ import HomeLayout from "./pages/HomeLayout.jsx";
 import UserProgressPosts from "./pages/progressUpdate/UserProgressPosts.jsx";
 import FooterCom from "./components/Footer.jsx";
 
+import GenerateLearningPlanForm from "./pages/learningPlan/GenerateLearningPlanForm.jsx";
+import ViewGeneratedPlan from "./pages/learningPlan/ViewGeneratedPlan.jsx";
+import EditGeneratedPlan from "./pages/learningPlan/EditGeneratedPlan.jsx";
+
+import EditProgressPost from "./pages/progressUpdate/EditProgressPost.jsx";
+
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -40,9 +47,15 @@ export default function App() {
               element={<CreateLearningPlan />}
             />
             <Route
+              path="generate-learning-plan"
+              element={<GenerateLearningPlanForm />}
+            />
+            <Route path="view-generated-plan" element={<ViewGeneratedPlan />} />
+            <Route
               path="view-learning-plan/:planId"
               element={<ViewLearningPlan />}
             />
+            <Route path="edit-generated" element={<EditGeneratedPlan />} />
             <Route
               path="progress/template-select/:planId"
               element={<TemplateSelectionPage />}
@@ -52,6 +65,8 @@ export default function App() {
               path="progress/view-user-progress-updates"
               element={<UserProgressPosts />}
             />
+            <Route path="progress/edit/:id" element={<EditProgressPost />} />
+
           </Route>
           {/* private routes */}
           <Route path="/dashboard" element={<Dashboard />} />

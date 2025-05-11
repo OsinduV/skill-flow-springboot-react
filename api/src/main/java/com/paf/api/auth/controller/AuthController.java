@@ -24,4 +24,10 @@ public class AuthController {
     public AuthResponse registerUser(@RequestBody UserRequest userRequest) throws Exception {
         return authService.registerUser(userRequest);
     }
+
+    @PostMapping("/google")
+    public AuthResponse loginWithGoogle(@RequestBody UserRequest userRequest) {
+        return authService.loginWithGoogle(userRequest);
+    }
+
 }
