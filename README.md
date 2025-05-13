@@ -22,7 +22,7 @@ A full-stack web application where users can share their skills, track learning 
 
 ---
 
-## 🚀 Features
+## Features
 
 * 📸 **Skill Sharing Posts**: Upload up to 3 photos or 30-sec videos with descriptions.
 * 📈 **Learning Progress Updates**: Post learning updates using various predefined templates.
@@ -33,7 +33,7 @@ A full-stack web application where users can share their skills, track learning 
 
 ---
 
-## 🤖 AI-Powered Learning Plan
+## AI-Powered Learning Plan
 
 We use **Google's Gemini API** to generate customized learning plans based on user goals.
 
@@ -48,7 +48,7 @@ Steps:
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Technology   | Usage                    |
 | ------------ | ------------------------ |
@@ -62,7 +62,7 @@ Steps:
 
 ---
 
-## 🛏️ Architecture
+## Architecture
 
 ```
 [Client - React] ↔ [REST API - Spring Boot] ↔ [MySQL DB]
@@ -72,11 +72,12 @@ Steps:
 
 ---
 
-## 🧑‍💻 Getting Started
+## Getting Started
 
 ```bash
 git clone https://github.com/OsinduV/skill-flow-springboot-react.git
 cd skill-flow-springboot-react
+````
 
 ### 🛆 Backend Setup
 
@@ -120,14 +121,14 @@ cd skill-flow-springboot-react
 
 ---
 
-## 🔒 Authentication
+## Authentication
 
 * Login via Google using Firebase Authentication.
 * JWT token passed from frontend to backend.
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 skill-flow-springboot-react/
@@ -138,7 +139,7 @@ skill-flow-springboot-react/
 
 ---
 
-## 👥 Contributors
+## Contributors
 
 ### Vimukthi P L D O – IT22894656 – Learning Progress & Profiles
 
@@ -169,7 +170,7 @@ skill-flow-springboot-react/
 
 ---
 
-## 📄 License
+## License
 
 This project is part of the **IT3030 Programming Applications & Frameworks Assignment 2025** at **SLIIT**.
 
