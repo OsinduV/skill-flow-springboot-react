@@ -13,7 +13,7 @@ export default function UserProgressPosts() {
     const fetchUserPosts = async () => {
       try {
         const userId = currentUser.id;
-        const res = await axios.get(`/progress/user/${userId}`);
+        const res = await axios.get(`/progress`);
         setPosts(res.data);
       } catch (err) {
         console.error("Failed to load posts", err);

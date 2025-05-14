@@ -27,8 +27,8 @@ export default function ProgressPostSection({ post }) {
   const handleCommentClick = () => setIsModalOpen(true);
   const handleModalClose = () => setIsModalOpen(false);
 
-  const userAvatar = currentUser?.profilePicture || "/default-avatar.png";
-  const userName = currentUser?.firstName || "User";
+  const userAvatar = post.userImage || "/default-avatar.png";
+  const userName = post.userName || "User";
   const createdAt = post.createdAt
     ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })
     : "Just now";

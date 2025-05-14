@@ -66,6 +66,12 @@ public class ProgressUpdateController {
     }
 
     // 🔸 Get progress updates by user ID
+    @GetMapping()
+    public ResponseEntity<List<ProgressUpdateResponse>> getAll() {
+        return ResponseEntity.ok(progressService.getProgressUpdates());
+    }
+
+    // 🔸 Get progress updates by user ID
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<ProgressUpdateResponse>> getByUser(@PathVariable Integer userId) {
         return ResponseEntity.ok(progressService.getByUser(userId));
