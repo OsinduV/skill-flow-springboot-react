@@ -27,8 +27,34 @@ import EditGeneratedPlan from "./pages/learningPlan/EditGeneratedPlan.jsx";
 
 import EditProgressPost from "./pages/progressUpdate/EditProgressPost.jsx";
 
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { signInSuccess } from "./redux/user/userSlice.js";
+import axios from "./utils/axios.js";
 
 export default function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      const userId = localStorage.getItem("userId");
+      if (userId) {
+        try {
+          const res = await axios.get(`/api/user/${userId}`);
+          dispatch(signInSuccess(res.data));
+        } catch (err) {
+          console.error("Failed to refresh current user", err);
+          localStorage.removeItem("userId");
+          localStorage.removeItem("authToken");
+        }
+      }else{
+        return;
+      }
+    };
+
+    fetchCurrentUser();
+  }, [dispatch]);
+
   return (
     <BrowserRouter>
       <Header />
@@ -39,7 +65,7 @@ export default function App() {
         <Route path="/sign-in" element={<Signin />} />
         <Route path="/sign-up" element={<Signup />} />
 
-            {/* private routes */}
+        {/* private routes */}
         <Route element={<PrivateRoute />}>
           <Route path="/home" element={<HomeLayout />}>
             <Route index element={<HomePost />} />
@@ -68,16 +94,10 @@ export default function App() {
               element={<UserProgressPosts />}
             />
 
-            <Route
-              path="skill-post/create"
-              element={<CreateSkillPost />}
-            />
+            <Route path="skill-post/create" element={<CreateSkillPost />} />
 
             <Route path="progress/edit/:id" element={<EditProgressPost />} />
-
-
           </Route>
-
 
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>

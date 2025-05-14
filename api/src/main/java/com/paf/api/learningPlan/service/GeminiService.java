@@ -39,8 +39,8 @@ public class GeminiService {
                 %s
             
                 If time commitment or timeline (weeks) is not provided, estimate them based on the goal and experience level.
-                If both startDate and endDate are given, use them to assign realistic due dates to each plan item.
-                If both startDate and endDate are not given, set them according to the learning timeline.
+                If both startDate and endDate are given, use them to assign realistic due dates to each plan item considering today's date.
+                If both startDate and endDate are not given, set them according to the learning timeline and also use them to assign realistic due dates to each plan item considering today's date.
             
                 Output JSON structure:
                 {
@@ -51,11 +51,13 @@ public class GeminiService {
                     {
                       "itemName": "Day 1: 🎥 Watch: Introduction to Cloud Computing",
                       "resource": "YouTube - Azure Fundamentals by freeCodeCamp",
-                      "dueDate": "2025-05-11" // optional, include only if dates are given
+                      "dueDate": "2025-05-11" // include only if dates are given
                     },
                     ...
                   ]
                 }
+                
+                this is 2025 .
                 """,
                 request.getGoal(),
                 request.getCurrentExperience(),

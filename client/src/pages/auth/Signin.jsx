@@ -34,6 +34,7 @@ export default function SignIn() {
       const data = res.data;
       if (data.token) {
         localStorage.setItem("authToken", data.token);
+        localStorage.setItem("userId", data.user.id);
         dispatch(signInSuccess(data.user));
         navigate("/");
       } else {

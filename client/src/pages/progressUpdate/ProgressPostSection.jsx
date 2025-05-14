@@ -7,7 +7,10 @@ import { useSelector } from "react-redux";
 import { HiOutlineDotsVertical } from "react-icons/hi";
 import axios from "../../utils/axios";
 import toast from "react-hot-toast";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+import { updateFollowings } from "../../redux/user/userSlice";
 
 export default function ProgressPostSection({ post }) {
   const { currentUser } = useSelector((state) => state.user);
@@ -16,6 +19,7 @@ export default function ProgressPostSection({ post }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [showDeleteModal, setShowDeleteModal] = useState(false);
 
@@ -32,6 +36,8 @@ export default function ProgressPostSection({ post }) {
   const createdAt = post.createdAt
     ? formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })
     : "Just now";
+
+  if (!currentUser) return null;
 
   return (
     <div className="max-w-lg border border-gray-200 rounded-lg mx-auto shadow-md overflow-hidden my-4 dark:bg-gray-800 dark:border-gray-700">
@@ -52,45 +58,89 @@ export default function ProgressPostSection({ post }) {
             </p>
           </div>
         </div>
-        {/* <button
-          onClick={handleFollow}
-          className={`px-3 py-1 text-sm rounded ${
-            isFollowing
-              ? "bg-gray-300 text-gray-700"
-              : "bg-blue-500 text-white hover:bg-blue-600"
-          }`}
-        >
-          {isFollowing ? "Following" : "Follow"}
-        </button> */}
         <div className="relative">
-          <button
-            onClick={toggleDropdown}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
-          >
-            <HiOutlineDotsVertical className="text-xl text-gray-600 dark:text-white" />
-          </button>
+          {post.userId === currentUser?.id ? (
+            <>
+              <button
+                onClick={toggleDropdown}
+                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+              >
+                <HiOutlineDotsVertical className="text-xl text-gray-600 dark:text-white" />
+              </button>
 
-          {showDropdown && (
-            <div className="absolute right-0 mt-2 w-28 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded shadow-lg z-10">
+              {showDropdown && (
+                <div className="absolute right-0 mt-2 w-28 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded shadow-lg z-10">
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+                    onClick={() => {
+                      setShowDropdown(false);
+                      navigate(`/home/progress/edit/${post.id}`);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100 dark:hover:bg-red-700"
+                    onClick={() => {
+                      setShowDropdown(false);
+                      setShowDeleteModal(true);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </div>
+              )}
+            </>
+          ) : currentUser?.followings?.includes(post.userId) ? (
+            // If following
+            <div className="relative">
               <button
-                className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
-                onClick={() => {
-                  setShowDropdown(false);
-                  navigate(`/home/progress/edit/${post.id}`);
-                }}
+                onClick={toggleDropdown}
+                className="px-3 py-1 text-sm bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
               >
-                Edit
+                Following
               </button>
-              <button
-                className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100 dark:hover:bg-red-700"
-                onClick={() => {
-                  setShowDropdown(false);
-                  setShowDeleteModal(true);
-                }}
-              >
-                Delete
-              </button>
+              {showDropdown && (
+                <div className="absolute right-0 mt-2 w-28 bg-white dark:bg-gray-800 border dark:border-gray-700 rounded shadow-lg z-10">
+                  <button
+                    className="block w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-100 dark:hover:bg-red-700"
+                    onClick={async () => {
+                      try {
+                        await axios.put(
+                          `/api/user/${currentUser.id}/follow/${post.userId}`
+                        );
+                        dispatch(updateFollowings(post.userId));
+                        toast.success("Unfollowed user.");
+                      } catch (err) {
+                        toast.error("Failed to unfollow.");
+                      }
+                      setShowDropdown(false);
+                    }}
+                  >
+                    Unfollow
+                  </button>
+                </div>
+              )}
             </div>
+          ) : (
+            // If not following
+            <button
+              onClick={async () => {
+                try {
+                  await axios.put(
+                    `/api/user/${currentUser.id}/follow/${post.userId}`
+                  );
+                  dispatch(updateFollowings(post.userId));
+                  toast.success("Started following user.");
+                } catch (err) {
+                  toast.error("Failed to follow.");
+                  console.log(err);
+                }
+              }}
+              className="px-3 py-1 text-sm bg-blue-500 text-white rounded hover:bg-blue-600"
+            >
+              Follow
+            </button>
           )}
         </div>
       </div>

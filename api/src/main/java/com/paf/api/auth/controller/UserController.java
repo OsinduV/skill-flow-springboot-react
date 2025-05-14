@@ -37,9 +37,14 @@ public class UserController {
         return userService.editUser(user, id);
     }
 
-    @PutMapping("/user/{userId}/follow/{followerId}")
-    public User followUser(@PathVariable("userId") Integer userId, @PathVariable("followerId") Integer followerId) throws Exception {
-        return userService.followUser(userId, followerId);
+    @PutMapping("/user/{userId}/follow/{targetId}")
+    public User toggleFollow(@PathVariable Integer userId, @PathVariable Integer targetId) throws Exception {
+        return userService.toggleFollow(userId, targetId);
+    }
+
+    @GetMapping("/user/{userId}/follows/{targetId}")
+    public boolean isFollowing(@PathVariable Integer userId, @PathVariable Integer targetId) throws Exception {
+        return userService.getUserById(userId).getFollowings().contains(targetId);
     }
 
     @GetMapping("/user/search")
