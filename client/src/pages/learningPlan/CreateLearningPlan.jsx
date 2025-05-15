@@ -69,7 +69,7 @@ export default function CreateLearningPlan() {
       const payload = { ...plan, userId };
       const res = await axios.post("/learning-plans/with-items", payload);
       console.log(res.data);
-      navigate("/?tab=learningplan");
+      navigate("/home/learning-plan");
     } catch (err) {
       console.error("Failed to create learning plan", err);
     }

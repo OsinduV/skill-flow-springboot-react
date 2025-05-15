@@ -90,7 +90,7 @@ export default function EditGeneratedPlan() {
       const userId = currentUser.id;
       const payload = { ...plan, userId };
       await axios.post("/learning-plans/with-items", payload);
-      navigate("/?tab=learningplan");
+      navigate("/home/learning-plan");
     } catch (err) {
       console.error("Failed to save learning plan", err);
     }

@@ -20,7 +20,7 @@ export default function GenerateLearningPlanForm() {
     learningTimelineWeeks: "",
     timeCommitment: "",
     timeCommitmentUnit: "daily",
-    preferredLearningStyle: "video lectures",
+    preferredLearningStyle: "",
     customDescription: "",
     startDate: "",
     endDate: "",

@@ -120,6 +120,11 @@ public class ProgressUpdateService {
         return toDto(progressRepo.save(existing));
     }
 
+    public List<ProgressUpdateResponse> getProgressUpdates() {
+        return progressRepo.findAllByCreatedAtDesc().stream()
+                .map(this::toDto)
+                .toList();
+    }
 
     public List<ProgressUpdateResponse> getByUser(Integer userId) {
         return progressRepo.findAllByUserIdOrderByCreatedAtDesc(userId).stream()
@@ -149,6 +154,8 @@ public class ProgressUpdateService {
                 .templateType(p.getTemplateType().name())
                 .createdAt(p.getCreatedAt())
                 .userId(p.getUser().getId())
+                .userName(p.getUser().getFirstName() + " " + p.getUser().getLastName()) //
+                .userImage(p.getUser().getProfilePicture())
                 .learningPlanId(p.getLearningPlan() != null ? p.getLearningPlan().getId() : null)
                 .mediaList(p.getMediaAttachments())
                 .build();

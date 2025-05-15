@@ -5,6 +5,7 @@ import com.paf.api.auth.dto.UserRequest;
 import com.paf.api.auth.dto.UserResponse;
 import com.paf.api.auth.model.User;
 import com.paf.api.auth.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -85,26 +86,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User followUser(Integer userId, Integer followerId) throws Exception {
+    @Transactional
+    public User toggleFollow(Integer userId, Integer targetId) throws Exception {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new Exception("User not found"));
+        User target = userRepository.findById(targetId)
+                .orElseThrow(() -> new Exception("Target user not found"));
 
-        Optional<User> optionalUser = userRepository.findById(userId);
-        Optional<User> optionalFollower = userRepository.findById(followerId);
-
-        if (optionalUser.isEmpty()) {
-            throw new Exception("User with ID " + userId + " not found");
+        if (user.getFollowings().contains(targetId)) {
+            // Unfollow
+            user.getFollowings().remove(targetId);
+            target.getFollowers().remove(userId);
+        } else {
+            // Follow
+            user.getFollowings().add(targetId);
+            target.getFollowers().add(userId);
         }
-        if (optionalFollower.isEmpty()) {
-            throw new Exception("Follower with ID " + followerId + " not found");
-        }
-
-        User user = optionalUser.get();
-        User follower = optionalFollower.get();
-
-        user.getFollowers().add(follower.getId());
-        follower.getFollowings().add(user.getId());
 
         userRepository.save(user);
-        userRepository.save(follower);
+        userRepository.save(target);
 
         return user;
     }

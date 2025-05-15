@@ -17,4 +17,7 @@ public interface ProgressUpdateRepository extends JpaRepository<ProgressUpdate, 
     @Query("SELECT p FROM ProgressUpdate p WHERE p.user.id = :userId ORDER BY p.createdAt DESC")
     List<ProgressUpdate> findAllByUserIdOrderByCreatedAtDesc(Integer userId);
 
+    @Query("SELECT p FROM ProgressUpdate p ORDER BY p.createdAt DESC")
+    List<ProgressUpdate> findAllByCreatedAtDesc();
+
 }

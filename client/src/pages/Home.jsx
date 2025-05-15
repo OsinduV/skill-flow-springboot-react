@@ -97,35 +97,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Trending Section */}
-      <motion.section
-        className="py-16 px-4 md:px-20 bg-gray-100 dark:bg-[rgb(16,23,42)]"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-semibold text-center mb-10 text-gray-800 dark:text-white">
-            Trending Posts
-          </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            <Card imgSrc="/images/sample1.jpg">
-              <h5 className="text-lg font-bold">Cooking Basics</h5>
-              <p>Mastered knife skills in my first workshop!</p>
-            </Card>
-            <Card imgSrc="/images/sample2.jpg">
-              <h5 className="text-lg font-bold">React Crash Course</h5>
-              <p>Completed my first dynamic web app.</p>
-            </Card>
-            <Card imgSrc="/images/sample3.jpg">
-              <h5 className="text-lg font-bold">Portrait Photography</h5>
-              <p>Experimenting with lighting and mood.</p>
-            </Card>
-          </div>
-        </div>
-      </motion.section>
-
       {/* Call to Action */}
       <motion.section
         className="py-20 px-6 bg-blue-600 text-white text-center"

@@ -41,16 +41,7 @@ export default function Post({ post }) {
             </p>
           </div>
         </div>
-        <button
-          onClick={handleFollow}
-          className={`px-3 py-1 text-sm rounded ${
-            isFollowing
-              ? "bg-gray-300 text-gray-700"
-              : "bg-blue-500 text-white hover:bg-blue-600"
-          }`}
-        >
-          {isFollowing ? "Following" : "Follow"}
-        </button>
+
       </div>
 
       {/* Description */}

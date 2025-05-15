@@ -16,6 +16,8 @@ public class ProgressUpdateResponse {
     private String templateType;
     private LocalDateTime createdAt;
     private Integer userId;
+    private String userName;
+    private String userImage;
     private Long learningPlanId;
     private List<MediaAttachment> mediaList;
 }

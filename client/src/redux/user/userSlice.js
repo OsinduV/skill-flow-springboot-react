@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   currentUser: null,
@@ -7,7 +7,7 @@ const initialState = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     signInStart: (state) => {
@@ -54,6 +54,26 @@ const userSlice = createSlice({
       state.error = null;
       state.loading = false;
     },
+    updateFollowings: (state, action) => {
+      const targetUserId = action.payload;
+
+      if (!state.currentUser) return;
+
+      // Ensure followings is always an array
+      if (!Array.isArray(state.currentUser.followings)) {
+        state.currentUser.followings = [];
+      }
+
+      const index = state.currentUser.followings.indexOf(targetUserId);
+
+      if (index !== -1) {
+        // Unfollow
+        state.currentUser.followings.splice(index, 1);
+      } else {
+        // Follow
+        state.currentUser.followings.push(targetUserId);
+      }
+    },
   },
 });
 
@@ -68,6 +88,7 @@ export const {
   deleteUserSuccess,
   deleteUserFailure,
   signoutSuccess,
+  updateFollowings,
 } = userSlice.actions;
 
 export default userSlice.reducer;

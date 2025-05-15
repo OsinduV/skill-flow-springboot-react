@@ -16,7 +16,7 @@ public interface UserService {
 
     public User getUserByEmail(String email) throws Exception;
 
-    public User followUser(Integer userId, Integer followerId) throws Exception;
+    public User toggleFollow(Integer userId, Integer followerId) throws Exception;
 
     public User editUser(User user, Integer userId) throws Exception;
 

@@ -86,9 +86,9 @@ export default function LearningPlanList() {
                   <h5 className="text-2xl font-bold tracking-tight mb-2">
                     {plan.title}
                   </h5>
-                  <p className="font-normal text-gray-700 dark:text-gray-400 mb-2">
+                  {/* <p className="font-normal text-gray-700 dark:text-gray-400 mb-2">
                     {plan.description}
-                  </p>
+                  </p> */}
                   <p className="text-sm text-gray-500 mb-4">
                     📅 Due: {plan.dueDate}
                   </p>

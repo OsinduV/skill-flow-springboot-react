@@ -9,6 +9,7 @@ import {
   HiDocumentText,
   HiChartBar,
 } from "react-icons/hi";
+import { HiCpuChip } from "react-icons/hi2"
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { signoutSuccess } from "../redux/user/userSlice";
@@ -55,7 +56,27 @@ export default function HomeSidebar() {
           >
             Home
           </Sidebar.Item>
+          <Sidebar.Item
+            icon={() => <HiUserGroup  className="text-yellow-600 text-xl" />}
+            as="div"
+            onClick={() => navigate("/home")}
+            active={location.pathname === "/home"}
+          >
+            Skill Posts
+          </Sidebar.Item>
 
+          <Sidebar.Item
+            icon={() => <HiChartBar className="text-indigo-600 text-xl" />}
+            as="div"
+            onClick={() =>
+              navigate("/home/progress/view-all-progress-updates")
+            }
+            active={location.pathname.startsWith(
+              "/home/progress/view-all-progress-updates"
+            )}
+          >
+            Progress Updates
+          </Sidebar.Item>
           <Sidebar.Item
             icon={() => <HiBookOpen className="text-green-600 text-xl" />}
             as="div"
@@ -65,31 +86,24 @@ export default function HomeSidebar() {
             Learning Plans
           </Sidebar.Item>
           <Sidebar.Item
-            icon={() => <HiBookOpen className="text-green-600 text-xl" />}
+            icon={() => <HiCpuChip className="text-teal-600 text-x" />}
             as="div"
             onClick={() => navigate("/home/generate-learning-plan")}
-            active={location.pathname.startsWith("/home/generate-learning-plan")}
+            active={location.pathname.startsWith(
+              "/home/generate-learning-plan"
+            )}
           >
-            Generate LP
+            Generate Learning Plan
           </Sidebar.Item>
 
-          <Sidebar.Item
+          {/* <Sidebar.Item
             icon={() => <HiDocumentText className="text-purple-600 text-xl" />}
             as="div"
             onClick={() => navigate("/home/progress/create/null?template=CUSTOM")}
             active={location.pathname.startsWith("/home/progress/create")}
           >
             Share Progress
-          </Sidebar.Item>
-
-          <Sidebar.Item
-            icon={() => <HiChartBar className="text-indigo-600 text-xl" />}
-            as="div"
-            onClick={() => navigate("/home/progress/view-user-progress-updates")}
-            active={location.pathname.startsWith("/home/progress/view-user-progress-updates")}
-          >
-            My Progress Updates
-          </Sidebar.Item>
+          </Sidebar.Item> */}
 
           <Sidebar.Item
             icon={() => <HiLogout className="text-red-500 text-xl" />}
