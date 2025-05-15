@@ -31,6 +31,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { signInSuccess } from "./redux/user/userSlice.js";
 import axios from "./utils/axios.js";
+import AllProgressPosts from "./pages/progressUpdate/AllProgressPosts.jsx";
 
 export default function App() {
   const dispatch = useDispatch();
@@ -92,6 +93,10 @@ export default function App() {
             <Route
               path="progress/view-user-progress-updates"
               element={<UserProgressPosts />}
+            />
+            <Route
+              path="progress/view-all-progress-updates"
+              element={<AllProgressPosts />}
             />
 
             <Route path="skill-post/create" element={<CreateSkillPost />} />

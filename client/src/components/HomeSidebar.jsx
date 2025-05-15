@@ -69,10 +69,10 @@ export default function HomeSidebar() {
             icon={() => <HiChartBar className="text-indigo-600 text-xl" />}
             as="div"
             onClick={() =>
-              navigate("/home/progress/view-user-progress-updates")
+              navigate("/home/progress/view-all-progress-updates")
             }
             active={location.pathname.startsWith(
-              "/home/progress/view-user-progress-updates"
+              "/home/progress/view-all-progress-updates"
             )}
           >
             Progress Updates

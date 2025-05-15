@@ -4,7 +4,7 @@ import axios from "../../utils/axios";
 import ProgressPostSection from "./ProgressPostSection";
 import { useSelector } from "react-redux";
 
-export default function UserProgressPosts() {
+export default function AllProgressPosts() {
   const [posts, setPosts] = useState([]);
 
   const { currentUser } = useSelector((state) => state.user);
@@ -13,7 +13,7 @@ export default function UserProgressPosts() {
     const fetchUserPosts = async () => {
       try {
         const userId = currentUser.id;
-        const res = await axios.get(`/progress/user/${userId}`);
+        const res = await axios.get(`/progress`);
         setPosts(res.data);
       } catch (err) {
         console.error("Failed to load posts", err);
