@@ -34,3 +34,5 @@ build/
 
 ### docker mysql volumes
 mysql/
+
+.env
