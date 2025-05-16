@@ -53,7 +53,7 @@ export default function GenerateLearningPlanForm() {
       };
       const res = await axios.post("/ai/generate-learning-plan", payload);
       let rawText = res.data;
-
+      console.log(res.data);
       // Handle case where Gemini returns a markdown-formatted JSON string
       if (typeof rawText === "string" && rawText.trim().startsWith("```json")) {
         rawText = rawText
