@@ -26,7 +26,6 @@ export default function GenerateLearningPlanForm() {
     endDate: "",
   });
 
-  const [generatedPlan, setGeneratedPlan] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -39,7 +38,7 @@ export default function GenerateLearningPlanForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setGeneratedPlan(null);
+    // setGeneratedPlan(null);
     try {
       const payload = {
         ...form,
@@ -64,7 +63,6 @@ export default function GenerateLearningPlanForm() {
           .trim();
         try {
           const parsed = JSON.parse(rawText);
-          setGeneratedPlan(parsed);
           toast.success("Plan generated successfully!");
           navigate("/home/view-generated-plan", {
             state: { plan: parsed }
@@ -76,8 +74,10 @@ export default function GenerateLearningPlanForm() {
         }
       } else {
         // Already structured JSON (best case)
-        setGeneratedPlan(res.data);
-        toast.success("Plan generated successfully!");
+        // setGeneratedPlan(res.data);
+        navigate("/home/view-generated-plan", {
+            state: { plan: rawText}
+          });
       }
     } catch (err) {
       console.error("Failed to generate plan", err);
@@ -239,34 +239,7 @@ export default function GenerateLearningPlanForm() {
             Generate Plan
           </Button>
         </form>
-        {generatedPlan && (
-          <div className="mt-6 bg-gray-50 dark:bg-gray-800 p-4 rounded-lg">
-            <h2 className="text-xl font-bold mb-2">{generatedPlan.title}</h2>
-            <p className="mb-3 text-sm text-gray-700 dark:text-gray-300">
-              {generatedPlan.description}
-            </p>
-            <h3 className="font-semibold">Resources Used:</h3>
-            <ul className="list-disc ml-6 mb-4 text-sm">
-              {generatedPlan.resourcesUsed?.map((res, idx) => (
-                <li key={idx}>{res}</li>
-              ))}
-            </ul>
-            <h3 className="font-semibold">Learning Plan:</h3>
-            <ul className="list-decimal ml-6 text-sm">
-              {generatedPlan.learningPlan?.map((item, idx) => (
-                <li key={idx} className="mb-1">
-                  <strong>{item.itemName}</strong>
-                  {item.resource && <> – {item.resource}</>}
-                  {item.dueDate && (
-                    <div className="text-xs text-gray-500">
-                      Due: {item.dueDate}
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        
       </Card>
     </div>
   );
