@@ -1,4 +1,4 @@
-# SkillHub – Skill Sharing & Learning Platform
+# Skill-Flow – Skill Sharing & Learning Platform
 
 A full-stack web application where users can share their skills, track learning progress, and generate personalized learning plans using AI. Built with **Spring Boot** for backend and **ReactJS** for frontend.
 
