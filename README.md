@@ -87,20 +87,63 @@ cd skill-flow-springboot-react
    CREATE DATABASE skill_flow_db;
    ```
 
-2. **Update credentials** in `application.properties`:
+2. **Create a `.env` file** inside the `/api` folder with your environment variables:
+   
+   ```env
+   DATASOURCE_URL=jdbc:mysql://localhost:3306/skill_flow_db
+   DATASOURCE_USER=your_mysql_username
+   DATASOURCE_PASSWORD=your_mysql_password
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+3. Make sure application.properties uses the environment variables:
 
    ```properties
-   spring.datasource.username=your_mysql_username
-   spring.datasource.password=your_mysql_password
-   gemini.api.key=your_gemini_api_key_here
+   spring.datasource.url=${DATASOURCE_URL}
+   spring.datasource.username=${DATASOURCE_USER}
+   spring.datasource.password=${DATASOURCE_PASSWORD}
+   gemini.api.key=${GEMINI_API_KEY}
    ```
 
-3. **Run the backend**:
+4. **Run the backend**:
 
    ```bash
    cd api
    ./mvnw spring-boot:run
    ```
+
+> ℹ️ **Note:** Make sure you use a `.env` file and a tool like [dotenv](https://github.com/cdimascio/dotenv-java) or configure your IDE to load environment variables during Spring Boot startup.
+
+> 🔐 Instead of using a `.env` file, you can set environment variables before starting the backend:
+
+#### On Linux/macOS:
+```bash
+export DATASOURCE_URL=jdbc:mysql://localhost:3306/skill_flow_db
+export DATASOURCE_USER=your_mysql_username
+export DATASOURCE_PASSWORD=your_mysql_password
+export GEMINI_API_KEY=your_gemini_api_key_here
+
+./mvnw spring-boot:run
+```
+
+#### On Windows CMD:
+```cmd
+set DATASOURCE_URL=jdbc:mysql://localhost:3306/skill_flow_db
+set DATASOURCE_USER=your_mysql_username
+set DATASOURCE_PASSWORD=your_mysql_password
+set GEMINI_API_KEY=your_gemini_api_key_here
+
+mvnw spring-boot:run
+```
+
+#### On PowerShell:
+```powershell
+$env:DATASOURCE_URL="jdbc:mysql://localhost:3306/skill_flow_db"
+$env:DATASOURCE_USER="your_mysql_username"
+$env:DATASOURCE_PASSWORD="your_mysql_password"
+$env:GEMINI_API_KEY="your_gemini_api_key_here"
+
+./mvnw spring-boot:run
+```
 
 ### 🌐 Frontend Setup
 
