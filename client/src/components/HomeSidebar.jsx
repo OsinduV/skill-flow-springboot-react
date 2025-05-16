@@ -36,7 +36,7 @@ export default function HomeSidebar() {
             "https://cdn.pixabay.com/photo/2016/09/24/03/20/man-1690965_1280.jpg"
           }
           alt="Profile"
-          className="w-32 h-232 rounded-full object-cover shadow-md"
+          className="w-32 h-32 rounded-full object-cover shadow-md"
         />
         <p className="mt-3 font-semibold text-gray-800 dark:text-gray-100 text-center text-lg">
           {`${currentUser?.firstName || "User"} ${currentUser?.lastName || ""}`}

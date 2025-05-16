@@ -24,9 +24,15 @@ public class User {
     private boolean isAdmin;
 
     @ElementCollection
+    @CollectionTable(name = "user_followers", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "follower_id")
+    @OrderColumn(name = "order_index")
     private List<Integer> followers;
 
     @ElementCollection
+    @CollectionTable(name = "user_followings", joinColumns = @JoinColumn(name = "user_id"))
+    @Column(name = "following_id")
+    @OrderColumn(name = "order_index")
     private List<Integer> followings;
 
     public User(){

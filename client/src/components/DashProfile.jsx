@@ -46,7 +46,7 @@ export default function DashProfile() {
         <img
           src={currentUser?.profilePicture || "/images/default-profile.png"}
           alt="profile"
-          className="w-36 h-36 rounded-full border-4 border-white absolute left-8 bottom-[-3rem] shadow-xl"
+          className="w-36 h-36 rounded-full border-4 border-white absolute left-8 bottom-[-3rem] shadow-xl object-cover"
         />
       </div>
 
